@@ -1,12 +1,9 @@
 import yaml from 'js-yaml';
+import ini from 'ini';
 
-export default(key, data) => {
-  let pars;
-  if (key === '.json') {
-    pars = JSON.parse;
-  }
-  if (key === '.yml') {
-    pars = yaml.safeLoad;
-  }
-  return pars(data);
+const obj = {
+  '.json': d => JSON.parse(d),
+  '.yml': d => yaml.safeLoad(d),
+  '.ini': d => ini.parse(d),
 };
+export default (key, data) => obj[key](data);
