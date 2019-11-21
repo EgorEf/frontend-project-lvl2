@@ -1,26 +1,32 @@
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
+import parsing from './parsers';
 
+const readFile = (pathing) => {
+  const absolutionPath = path.resolve(pathing);
+  const data = fs.readFileSync(absolutionPath, 'utf8');
+  return data;
+};
 const gendiff = (firstConfig, secondConfig) => {
-  const firstPath = path.resolve(firstConfig);
-  const secondPath = path.resolve(secondConfig);
-  const jsonFormat1 = fs.readFileSync(firstPath, 'utf8');
-  const jsonFormat2 = fs.readFileSync(secondPath, 'utf8');
-  const data1 = JSON.parse(jsonFormat1);
-  const data2 = JSON.parse(jsonFormat2);
-  const arr1 = Object.entries(data1);
-  const arr2 = Object.entries(data2);
-  const filtered = arr2.filter(([key]) => !_.has(data1, key));
+  const format1 = path.extname(firstConfig);
+  const format2 = path.extname(secondConfig);
+  const data1 = readFile(firstConfig);
+  const data2 = readFile(secondConfig);
+  const obj1 = parsing(format1, data1);
+  const obj2 = parsing(format2, data2);
+  const arr1 = Object.entries(obj1);
+  const arr2 = Object.entries(obj2);
+  const filtered = arr2.filter(([key]) => !_.has(obj1, key));
   const arr = arr1.concat(filtered);
   const reduced = arr.reduce((acc, [key, value]) => {
-    if (_.has(data2, key) && !_.has(data1, key)) {
+    if (_.has(obj2, key) && !_.has(obj1, key)) {
       return [...acc, `  + ${key}: ${value}`];
     }
-    if (_.has(data2, key) && data2[key] !== value) {
-      return [...acc, `  + ${key}: ${data2[key]}`, `  - ${key}: ${value}`];
+    if (_.has(obj2, key) && obj2[key] !== value) {
+      return [...acc, `  + ${key}: ${obj2[key]}`, `  - ${key}: ${value}`];
     }
-    if (!_.has(data2, key)) {
+    if (!_.has(obj2, key)) {
       return [...acc, `  - ${key}: ${value}`];
     }
     return [...acc, `    ${key}: ${value}`];
