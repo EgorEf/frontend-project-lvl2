@@ -8,3 +8,6 @@
 
 #Stage7 
 [![asciicast](https://asciinema.org/a/30XKGHCQsU4uICEXvdV3CfmXT.svg)](https://asciinema.org/a/30XKGHCQsU4uICEXvdV3CfmXT)
+
+#Stage8
+[![asciicast](https://asciinema.org/a/A2R3JZXIUS6x2Z51bf6qJcK0r.svg)](https://asciinema.org/a/A2R3JZXIUS6x2Z51bf6qJcK0r)
