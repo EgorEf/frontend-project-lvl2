@@ -30,7 +30,7 @@ const casesJson = [[pathToJson1, pathToJson2, resultJson], [pathToIni1, pathToIn
 describe("'gendiff' utility ", () => {
   test.each(casesNested)('genDiff(%p,\n %p), \n return %p',
     (firstArg, secondArg, expectedResult) => {
-      const format = 'nested';
+      const format = 'pretty';
       const resulted = gendiff(firstArg, secondArg, format);
       expect(resulted).toEqual(expectedResult);
     });
