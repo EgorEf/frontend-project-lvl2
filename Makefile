@@ -1,6 +1,3 @@
-start:
-	npx babel-node 'src/bin/gendiff.js' 8
-
 install:
 	npm install
 

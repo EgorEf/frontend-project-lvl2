@@ -1,0 +1,124 @@
+[
+  {
+    "name": "common",
+    "type": "obj",
+    "status": "unchanged",
+    "children": [
+      {
+        "name": "setting1",
+        "type": "node",
+        "status": "unchanged",
+        "beforeValue": "Value 1",
+        "afterValue": "Value 1"
+      },
+      {
+        "name": "setting2",
+        "type": "node",
+        "status": "deleted",
+        "beforeValue": 200,
+        "afterValue": null
+      },
+      {
+        "name": "setting3",
+        "type": "node",
+        "status": "edited",
+        "beforeValue": true,
+        "afterValue": {
+          "key": "value"
+        }
+      },
+      {
+        "name": "setting6",
+        "type": "obj",
+        "status": "unchanged",
+        "children": [
+          {
+            "name": "key",
+            "type": "node",
+            "status": "unchanged",
+            "beforeValue": "value",
+            "afterValue": "value"
+          },
+          {
+            "name": "ops",
+            "type": "node",
+            "status": "added",
+            "beforeValue": null,
+            "afterValue": "vops"
+          }
+        ]
+      },
+      {
+        "name": "follow",
+        "type": "node",
+        "status": "added",
+        "beforeValue": null,
+        "afterValue": false
+      },
+      {
+        "name": "setting4",
+        "type": "node",
+        "status": "added",
+        "beforeValue": null,
+        "afterValue": "blah blah"
+      },
+      {
+        "name": "setting5",
+        "type": "node",
+        "status": "added",
+        "beforeValue": null,
+        "afterValue": {
+          "key5": "value5"
+        }
+      }
+    ]
+  },
+  {
+    "name": "group1",
+    "type": "obj",
+    "status": "unchanged",
+    "children": [
+      {
+        "name": "baz",
+        "type": "node",
+        "status": "edited",
+        "beforeValue": "bas",
+        "afterValue": "bars"
+      },
+      {
+        "name": "foo",
+        "type": "node",
+        "status": "unchanged",
+        "beforeValue": "bar",
+        "afterValue": "bar"
+      },
+      {
+        "name": "nest",
+        "type": "node",
+        "status": "edited",
+        "beforeValue": {
+          "key": "value"
+        },
+        "afterValue": "str"
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "type": "node",
+    "status": "deleted",
+    "beforeValue": {
+      "abc": 12345
+    },
+    "afterValue": null
+  },
+  {
+    "name": "group3",
+    "type": "node",
+    "status": "added",
+    "beforeValue": null,
+    "afterValue": {
+      "fee": 100500
+    }
+  }
+]

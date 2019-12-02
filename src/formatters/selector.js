@@ -1,5 +1,6 @@
 import getPlainRender from './plain';
-import getNestedRender from './nested';
+import getPrettyRender from './pretty';
+import getJsonRender from './jsonFormat';
 
 const renders = [
   {
@@ -7,8 +8,12 @@ const renders = [
     check: format => (format === 'plain'),
   },
   {
-    render: ast => getNestedRender(ast),
-    check: format => (format === 'nested'),
+    render: ast => getPrettyRender(ast),
+    check: format => (format === 'pretty'),
+  },
+  {
+    render: ast => getJsonRender(ast),
+    check: format => (format === 'json'),
   },
 ];
 

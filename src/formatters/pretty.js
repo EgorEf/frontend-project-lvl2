@@ -7,22 +7,26 @@ const getStringFromObj = (element, space) => {
   }
   return element;
 };
+
 const getSpace = space => space.slice(1, space.length - 1);
+
 const renders = [
   {
-    proces: (key, space, value1, value2) => `${getSpace(space)}+ ${key}: ${getStringFromObj(value2, space)}`,
+    proces: (key, space, v1, v2) => `${getSpace(space)}+ ${key}: ${getStringFromObj(v2, space)}`,
     check: status => (status === 'added'),
   },
   {
-    proces: (key, space, value1, value2) => `${getSpace(space)}- ${key}: ${getStringFromObj(value1, space)}\n${getSpace(space)}+ ${key}: ${getStringFromObj(value2, space)}`,
+    proces: (key, space, v1, v2) => (
+      `${getSpace(space)}- ${key}: ${getStringFromObj(v1, space)}\n${getSpace(space)}+ ${key}: ${getStringFromObj(v2, space)}`
+    ),
     check: status => (status === 'edited'),
   },
   {
-    proces: (key, space, value1) => `${getSpace(space)}- ${key}: ${getStringFromObj(value1, space)}`,
+    proces: (key, space, v1) => `${getSpace(space)}- ${key}: ${getStringFromObj(v1, space)}`,
     check: status => (status === 'deleted'),
   },
   {
-    proces: (key, space, value1) => `${space}${key}: ${value1}`,
+    proces: (key, space, v1) => `${space}${key}: ${v1}`,
     check: status => (status === 'unchanged'),
   },
 ];

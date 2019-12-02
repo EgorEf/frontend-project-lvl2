@@ -1,7 +1,7 @@
 {
-  "name": "frontend-project-lvl2",
-  "version": "0.0.1",
-  "description": "",
+  "name": "EgorEf.front-proj2",
+  "version": "1.0.0",
+  "description": "utility for finding differences in configuration files",
   "main": "dist/index.js",
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
@@ -21,6 +21,13 @@
     "type": "git",
     "url": "git+https://github.com/EgorEf/frontend-project-lvl2.git"
   },
+  "keywords": [
+    "utility",
+    "differences",
+    "json",
+    "yml",
+    "ini"
+  ],
   "author": "Egor.Ef",
   "license": "ISC",
   "bugs": {
