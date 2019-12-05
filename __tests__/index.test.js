@@ -2,12 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import gendiff from '../src';
 
-const pathToResult = path.resolve(__dirname, '__fixtures__/result.txt');
+const pathToResultPretty = path.resolve(__dirname, '__fixtures__/result.txt');
 const pathToResultPlain = path.resolve(__dirname, '__fixtures__/resultPlain.txt');
 const pathToResultJson = path.resolve(__dirname, '__fixtures__/resultJSON.txt');
-const result = fs.readFileSync(pathToResult, 'utf8');
-const resultPlain = fs.readFileSync(pathToResultPlain, 'utf8');
-const resultJson = fs.readFileSync(pathToResultJson, 'utf8');
 
 const pathToJson1 = path.resolve(__dirname, '__fixtures__/before.json');
 const pathToJson2 = path.resolve(__dirname, '__fixtures__/after.json');
@@ -18,32 +15,33 @@ const pathToYml2 = path.resolve(__dirname, '__fixtures__/after.yml');
 const pathToIni1 = path.resolve(__dirname, '__fixtures__/before.ini');
 const pathToIni2 = path.resolve(__dirname, '__fixtures__/after.ini');
 
-const casesNested = [[pathToJson1, pathToJson2, result], [pathToIni1, pathToIni2, result],
-  [pathToYml1, pathToYml2, result]];
+const casesPretty = [[pathToJson1, pathToJson2, pathToResultPretty],
+  [pathToIni1, pathToIni2, pathToResultPretty], [pathToYml1, pathToYml2, pathToResultPretty]];
 
-const casesPlain = [[pathToJson1, pathToJson2, resultPlain], [pathToIni1, pathToIni2, resultPlain],
-  [pathToYml1, pathToYml2, resultPlain]];
+const casesPlain = [[pathToJson1, pathToJson2, pathToResultPlain],
+  [pathToIni1, pathToIni2, pathToResultPlain], [pathToYml1, pathToYml2, pathToResultPlain]];
 
-const casesJson = [[pathToJson1, pathToJson2, resultJson], [pathToIni1, pathToIni2, resultJson],
-  [pathToYml1, pathToYml2, resultJson]];
+const casesJson = [[pathToJson1, pathToJson2, pathToResultJson],
+  [pathToIni1, pathToIni2, pathToResultJson], [pathToYml1, pathToYml2, pathToResultJson]];
 
-describe("'gendiff' utility ", () => {
-  test.each(casesNested)('genDiff(%p,\n %p), \n return %p',
-    (firstArg, secondArg, expectedResult) => {
-      const format = 'pretty';
-      const resulted = gendiff(firstArg, secondArg, format);
-      expect(resulted).toEqual(expectedResult);
-    });
-  test.each(casesPlain)('genDiff(%p,\n %p), \n return %p',
-    (firstArg, secondArg, expectedResult) => {
-      const format = 'plain';
-      const resulted = gendiff(firstArg, secondArg, format);
-      expect(resulted).toEqual(expectedResult);
-    });
-  test.each(casesJson)('genDiff(%p,\n %p), \n return %p',
-    (firstArg, secondArg, expectedResult) => {
-      const format = 'json';
-      const resulted = gendiff(firstArg, secondArg, format);
-      expect(resulted).toEqual(expectedResult);
-    });
-});
+test.each(casesPretty)('genDiff(%p,\n %p)',
+  (firstArg, secondArg, pathToResult) => {
+    const format = 'pretty';
+    const result = gendiff(firstArg, secondArg, format);
+    const expectedResult = fs.readFileSync(pathToResult, 'utf8');
+    expect(result).toEqual(expectedResult);
+  });
+test.each(casesPlain)('genDiff(%p,\n %p)',
+  (firstArg, secondArg, pathToResult) => {
+    const format = 'plain';
+    const result = gendiff(firstArg, secondArg, format);
+    const expectedResult = fs.readFileSync(pathToResult, 'utf8');
+    expect(result).toEqual(expectedResult);
+  });
+test.each(casesJson)('genDiff(%p,\n %p)',
+  (firstArg, secondArg, pathToResult) => {
+    const format = 'json';
+    const result = gendiff(firstArg, secondArg, format);
+    const expectedResult = fs.readFileSync(pathToResult, 'utf8');
+    expect(result).toEqual(expectedResult);
+  });

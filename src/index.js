@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
-import parser from './parsers';
+import parsing from './parsers';
 import getAst from './ast';
-import getRender from './formatters/selector';
+import rendering from './formatters/selector';
 
 const readFile = (pathUser) => {
   const absolutionPath = path.resolve(pathUser);
@@ -15,10 +15,9 @@ export default(firstConfig, secondConfig, format) => {
   const key2 = path.extname(secondConfig);
   const data1 = readFile(firstConfig);
   const data2 = readFile(secondConfig);
-  const obj1 = parser(key1, data1);
-  const obj2 = parser(key2, data2);
+  const obj1 = parsing(key1, data1);
+  const obj2 = parsing(key2, data2);
   const ast = getAst(obj1, obj2);
-  const { render } = getRender(format);
-  const result = render(ast);
+  const result = rendering(ast, format);
   return result;
 };

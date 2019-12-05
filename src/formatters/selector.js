@@ -17,7 +17,7 @@ const renders = [
   },
 ];
 
-const getRender = v => (
-  renders.find(({ check }) => check(v))
-);
-export default getRender;
+export default(ast, v) => {
+  const result = renders.find(({ check }) => check(v)).render(ast);
+  return result;
+};
