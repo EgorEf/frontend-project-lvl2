@@ -12,9 +12,9 @@ const iniParser = (data) => {
   return parse;
 };
 
-const obj = {
-  '.json': d => JSON.parse(d),
-  '.yml': d => yaml.safeLoad(d),
-  '.ini': d => iniParser(d),
+const selector = {
+  json: d => JSON.parse(d),
+  yml: d => yaml.safeLoad(d),
+  ini: d => iniParser(d),
 };
-export default (key, data) => obj[key](data);
+export default (type, data) => selector[type](data);
