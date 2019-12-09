@@ -1,7 +1,7 @@
 #!/usr/bin/env node
+import program from 'commander';
+import path from 'path';
 import genDiff from '..';
-
-const program = require('commander');
 
 program
   .version('1.0.0')
@@ -10,7 +10,9 @@ program
   .option('-f, --format [type]', 'Output format', 'pretty')
   .action((firstConfig, secondConfig, options) => {
     const type = options.format;
-    console.log(genDiff(firstConfig, secondConfig, type));
+    const absolutionPath1 = path.resolve(process.cwd(), firstConfig);
+    const absolutionPath2 = path.resolve(process.cwd(), secondConfig);
+    console.log(genDiff(absolutionPath1, absolutionPath2, type));
   });
 
 program.parse(process.argv);

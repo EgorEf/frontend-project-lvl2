@@ -12,34 +12,40 @@ const getSpace = space => space.slice(1, space.length - 1);
 
 const renders = [
   {
-    proces: (key, space, v1, v2) => `${getSpace(space)}+ ${key}: ${getStringFromObj(v2, space)}`,
+    render: (name, space, value) => `${getSpace(space)}+ ${name}: ${getStringFromObj(value, space)}`,
     check: status => (status === 'added'),
   },
   {
-    proces: (key, space, v1, v2) => (
-      `${getSpace(space)}- ${key}: ${getStringFromObj(v1, space)}\n${getSpace(space)}+ ${key}: ${getStringFromObj(v2, space)}`
+    render: (name, space, value) => (
+      `${getSpace(space)}- ${name}: ${getStringFromObj(value.before, space)}\n${getSpace(space)}+ ${name}: ${getStringFromObj(value.after, space)}`
     ),
     check: status => (status === 'edited'),
   },
   {
-    proces: (key, space, v1) => `${getSpace(space)}- ${key}: ${getStringFromObj(v1, space)}`,
+    render: (name, space, value) => `${getSpace(space)}- ${name}: ${getStringFromObj(value, space)}`,
     check: status => (status === 'deleted'),
   },
   {
-    proces: (key, space, v1) => `${space}${key}: ${v1}`,
+    render: (name, space, value) => `${space}${name}: ${value}`,
     check: status => (status === 'unchanged'),
   },
+  {
+    render: (name, space, value, children, func) => `${space}${name}: ${func(children, space)}`,
+    check: status => (status === 'nested'),
+  },
 ];
-const getProcess = v => (
+
+const getRenderForNode = v => (
   renders.find(({ check }) => check(v))
 );
+
 const standartSpace = ' '.repeat(4);
+
 const getRender = (ast, currentSpace = '') => {
   const correctSpace = `${currentSpace}${standartSpace}`;
-  const result = ast.reduce((acc, v) => {
-    if (v.type === 'obj') return [...acc, `${correctSpace}${v.name}: ${getRender(v.children, correctSpace)}`];
-    const { proces } = getProcess(v.status);
-    const element = proces(v.name, correctSpace, v.beforeValue, v.afterValue);
+  const result = ast.reduce((acc, node) => {
+    const { render } = getRenderForNode(node.status);
+    const element = render(node.name, correctSpace, node.value, node.children, getRender);
     return [...acc, element];
   }, []);
   const string = result.join('\n');

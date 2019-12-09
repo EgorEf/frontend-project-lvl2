@@ -1,124 +1,120 @@
 [
   {
     "name": "common",
-    "type": "obj",
-    "status": "unchanged",
+    "status": "nested",
+    "value": "",
     "children": [
       {
         "name": "setting1",
-        "type": "node",
         "status": "unchanged",
-        "beforeValue": "Value 1",
-        "afterValue": "Value 1"
+        "value": "Value 1",
+        "children": ""
       },
       {
         "name": "setting2",
-        "type": "node",
         "status": "deleted",
-        "beforeValue": 200,
-        "afterValue": null
+        "value": 200,
+        "children": ""
       },
       {
         "name": "setting3",
-        "type": "node",
         "status": "edited",
-        "beforeValue": true,
-        "afterValue": {
-          "key": "value"
-        }
+        "value": {
+          "before": true,
+          "after": {
+            "key": "value"
+          }
+        },
+        "children": ""
       },
       {
         "name": "setting6",
-        "type": "obj",
-        "status": "unchanged",
+        "status": "nested",
+        "value": "",
         "children": [
           {
             "name": "key",
-            "type": "node",
             "status": "unchanged",
-            "beforeValue": "value",
-            "afterValue": "value"
+            "value": "value",
+            "children": ""
           },
           {
             "name": "ops",
-            "type": "node",
             "status": "added",
-            "beforeValue": null,
-            "afterValue": "vops"
+            "value": "vops",
+            "children": ""
           }
         ]
       },
       {
         "name": "follow",
-        "type": "node",
         "status": "added",
-        "beforeValue": null,
-        "afterValue": false
+        "value": false,
+        "children": ""
       },
       {
         "name": "setting4",
-        "type": "node",
         "status": "added",
-        "beforeValue": null,
-        "afterValue": "blah blah"
+        "value": "blah blah",
+        "children": ""
       },
       {
         "name": "setting5",
-        "type": "node",
         "status": "added",
-        "beforeValue": null,
-        "afterValue": {
+        "value": {
           "key5": "value5"
-        }
+        },
+        "children": ""
       }
     ]
   },
   {
     "name": "group1",
-    "type": "obj",
-    "status": "unchanged",
+    "status": "nested",
+    "value": "",
     "children": [
       {
         "name": "baz",
-        "type": "node",
         "status": "edited",
-        "beforeValue": "bas",
-        "afterValue": "bars"
+        "value": {
+          "before": "bas",
+          "after": "bars"
+        },
+        "children": ""
       },
       {
         "name": "foo",
-        "type": "node",
         "status": "unchanged",
-        "beforeValue": "bar",
-        "afterValue": "bar"
+        "value": "bar",
+        "children": ""
       },
       {
         "name": "nest",
-        "type": "node",
         "status": "edited",
-        "beforeValue": {
-          "key": "value"
+        "value": {
+          "before": {
+            "key": "value"
+          },
+          "after": "str"
         },
-        "afterValue": "str"
+        "children": ""
       }
     ]
   },
   {
     "name": "group2",
-    "type": "node",
     "status": "deleted",
-    "beforeValue": {
+    "value": {
       "abc": 12345
     },
-    "afterValue": null
+    "children": ""
   },
   {
     "name": "group3",
-    "type": "node",
     "status": "added",
-    "beforeValue": null,
-    "afterValue": {
+    "value": {
       "fee": 100500
-    }
+    },
+    "children": ""
   }
 ]

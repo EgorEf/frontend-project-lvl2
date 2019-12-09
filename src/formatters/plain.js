@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getСorrectViev = (element) => {
   if (element instanceof Object) {
     return '[complex value]';
@@ -10,38 +12,38 @@ const getСorrectViev = (element) => {
 
 const renders = [
   {
-    proces: (name, v1, v2) => `Property '${name}' was added with value: ${getСorrectViev(v2)}`,
+    render: (arrNames, v) => `Property '${arrNames.join('.')}' was added with value: ${getСorrectViev(v)}`,
     check: status => (status === 'added'),
   },
   {
-    proces: (name, v1, v2) => `Property '${name}' was updated. From ${getСorrectViev(v1)} to ${getСorrectViev(v2)}`,
+    render: (arrNames, v) => `Property '${arrNames.join('.')}' was updated. From ${getСorrectViev(v.before)} to ${getСorrectViev(v.after)}`,
     check: status => (status === 'edited'),
   },
   {
-    proces: name => `Property '${name}' was removed`,
+    render: arrNames => `Property '${arrNames.join('.')}' was removed`,
     check: status => (status === 'deleted'),
+  },
+  {
+    render: (arrNames, v, child, func) => func(child, arrNames),
+    check: status => (status === 'nested'),
   },
 ];
 
-const getProcess = v => (
+const getRender = v => (
   renders.find(({ check }) => check(v))
 );
 
-const filtrator = v => (v.status !== 'unchanged' || v.type === 'obj');
+const filtrator = v => (v.status !== 'unchanged' || v.status === 'nested');
 
-const getResultArr = (arr, newAcc = [], fullName = []) => {
+const getResultArr = (arr, fullName = []) => {
   const filteredArr = arr.filter(filtrator);
-  const resultArr = filteredArr.reduce((acc, v) => {
-    const currentName = [...fullName, v.name];
-    if (v.type === 'obj') {
-      return getResultArr(v.children, acc, currentName);
-    }
-    const { proces } = getProcess(v.status);
-    const element = proces(currentName.join('.'), v.beforeValue, v.afterValue);
-    return [...acc, [element]];
-  }, newAcc);
-  return resultArr;
+  const resultArr = filteredArr.reduce((acc, node) => {
+    const currentName = [...fullName, node.name];
+    const { render } = getRender(node.status);
+    const element = render(currentName, node.value, node.children, getResultArr);
+    return [...acc, element];
+  }, []);
+  return _.flattenDeep(resultArr);
 };
 
-const getPlainRender = ast => getResultArr(ast).join('\n');
-export default getPlainRender;
+export default ast => getResultArr(ast).join('\n');

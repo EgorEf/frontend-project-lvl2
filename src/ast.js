@@ -1,42 +1,43 @@
 import _ from 'lodash';
 
-const actualStatus = [
+const nodes = [
   {
     status: 'added',
+    getValue: (first, second) => _.identity(second),
+    getChild: () => '',
     check: (obj1, obj2, key) => (!_.has(obj1, key) && _.has(obj2, key)),
   },
   {
     status: 'edited',
-    check: (obj1, obj2, key, type) => (_.has(obj2, key) && _.has(obj1, key) && (obj2[key] !== obj1[key]) && (type !== 'obj')),
+    getValue: (first, second) => ({ before: first, after: second }),
+    getChild: () => '',
+    check: (obj1, obj2, key) => (_.has(obj2, key) && _.has(obj1, key) && (obj2[key] !== obj1[key]))
+    && !(obj1[key] instanceof Object && obj2[key] instanceof Object),
   },
   {
     status: 'deleted',
+    getValue: first => _.identity(first),
+    getChild: () => '',
     check: (obj1, obj2, key) => (!_.has(obj2, key)),
   },
   {
     status: 'unchanged',
-    check: (obj1, obj2, key) => (obj2[key] === obj1[key]) || (_.has(obj1, key) && _.has(obj2, key)),
+    getValue: first => _.identity(first),
+    getChild: () => '',
+    check: (obj1, obj2, key) => (obj2[key] === obj1[key]) && (_.has(obj1, key) && _.has(obj2, key)),
   },
-];
-
-const getStatus = (firstObj, secondObj, key, type) => (
-  actualStatus.find(({ check }) => check(firstObj, secondObj, key, type)).status
-);
-
-const types = [
   {
-    type: 'obj',
+    status: 'nested',
+    getValue: () => '',
+    getChild: (obj1, obj2, func) => func(obj1, obj2),
     check: (obj1, obj2, key) => (obj1[key] instanceof Object && obj2[key] instanceof Object),
   },
-  {
-    type: 'node',
-    check: (obj1, obj2, key) => !(obj1[key] instanceof Object && obj2[key] instanceof Object),
-  },
 ];
 
-const getType = (firstObj, secondObj, key) => (
-  types.find(({ check }) => check(firstObj, secondObj, key)).type
+const getNode = (firstObj, secondObj, key) => (
+  nodes.find(({ check }) => check(firstObj, secondObj, key))
 );
+
 const getResultArr = (obj1, obj2) => {
   const arr1 = Object.keys(obj1);
   const arr2 = Object.keys(obj2);
@@ -47,16 +48,16 @@ const getResultArr = (obj1, obj2) => {
 const getAst = (obj1, obj2) => {
   const resultArr = getResultArr(obj1, obj2);
   const reduced = resultArr.reduce((acc, key) => {
-    const node = {};
-    node.name = key;
-    node.type = getType(obj1, obj2, key);
-    node.status = getStatus(obj1, obj2, key, node.type);
-    if (node.type === 'obj') {
-      node.children = getAst(obj1[key], obj2[key]);
-      return [...acc, node];
-    }
-    node.beforeValue = obj1[key] || typeof obj1[key] === 'boolean' ? obj1[key] : null;
-    node.afterValue = obj2[key] || typeof obj2[key] === 'boolean' ? obj2[key] : null;
+    const { status, getValue, getChild } = getNode(obj1, obj2, key);
+    const name = key;
+    const value = getValue(obj1[key], obj2[key], key);
+    const children = getChild(obj1[key], obj2[key], getAst);
+    const node = {
+      name,
+      status,
+      value,
+      children,
+    };
     return [...acc, node];
   }, []);
   return reduced;

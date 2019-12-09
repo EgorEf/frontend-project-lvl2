@@ -13,8 +13,8 @@ const iniParser = (data) => {
 };
 
 const selector = {
-  json: d => JSON.parse(d),
-  yml: d => yaml.safeLoad(d),
-  ini: d => iniParser(d),
+  json: JSON.parse,
+  yml: yaml.safeLoad,
+  ini: iniParser,
 };
 export default (type, data) => selector[type](data);
