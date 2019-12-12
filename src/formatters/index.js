@@ -4,20 +4,20 @@ import getJsonRender from './jsonFormat';
 
 const renders = [
   {
-    render: ast => getPlainRender(ast),
-    check: format => (format === 'plain'),
+    render: (ast) => getPlainRender(ast),
+    check: (format) => (format === 'plain'),
   },
   {
-    render: ast => getPrettyRender(ast),
-    check: format => (format === 'pretty'),
+    render: (ast) => getPrettyRender(ast),
+    check: (format) => (format === 'pretty'),
   },
   {
-    render: ast => getJsonRender(ast),
-    check: format => (format === 'json'),
+    render: (ast) => getJsonRender(ast),
+    check: (format) => (format === 'json'),
   },
 ];
 
-export default(ast, v) => {
+export default (ast, v) => {
   const result = renders.find(({ check }) => check(v)).render(ast);
   return result;
 };

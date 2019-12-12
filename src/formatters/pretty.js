@@ -8,34 +8,34 @@ const getStringFromObj = (element, space) => {
   return element;
 };
 
-const getSpace = space => space.slice(1, space.length - 1);
+const getSpace = (space) => space.slice(1, space.length - 1);
 
 const renders = [
   {
     render: (name, space, value) => `${getSpace(space)}+ ${name}: ${getStringFromObj(value, space)}`,
-    check: status => (status === 'added'),
+    check: (status) => (status === 'added'),
   },
   {
     render: (name, space, value) => (
       `${getSpace(space)}- ${name}: ${getStringFromObj(value.before, space)}\n${getSpace(space)}+ ${name}: ${getStringFromObj(value.after, space)}`
     ),
-    check: status => (status === 'edited'),
+    check: (status) => (status === 'edited'),
   },
   {
     render: (name, space, value) => `${getSpace(space)}- ${name}: ${getStringFromObj(value, space)}`,
-    check: status => (status === 'deleted'),
+    check: (status) => (status === 'deleted'),
   },
   {
     render: (name, space, value) => `${space}${name}: ${value}`,
-    check: status => (status === 'unchanged'),
+    check: (status) => (status === 'unchanged'),
   },
   {
     render: (name, space, value, children, func) => `${space}${name}: ${func(children, space)}`,
-    check: status => (status === 'nested'),
+    check: (status) => (status === 'nested'),
   },
 ];
 
-const getRenderForNode = v => (
+const getRenderForNode = (v) => (
   renders.find(({ check }) => check(v))
 );
 

@@ -2,19 +2,16 @@
   {
     "name": "common",
     "status": "nested",
-    "value": "",
     "children": [
       {
         "name": "setting1",
         "status": "unchanged",
-        "value": "Value 1",
-        "children": ""
+        "value": "Value 1"
       },
       {
         "name": "setting2",
         "status": "deleted",
-        "value": 200,
-        "children": ""
+        "value": 200
       },
       {
         "name": "setting3",
@@ -24,54 +21,46 @@
           "after": {
             "key": "value"
           }
-        },
-        "children": ""
+        }
       },
       {
         "name": "setting6",
         "status": "nested",
-        "value": "",
         "children": [
           {
             "name": "key",
             "status": "unchanged",
-            "value": "value",
-            "children": ""
+            "value": "value"
           },
           {
             "name": "ops",
             "status": "added",
-            "value": "vops",
-            "children": ""
+            "value": "vops"
           }
         ]
       },
       {
         "name": "follow",
         "status": "added",
-        "value": false,
-        "children": ""
+        "value": false
       },
       {
         "name": "setting4",
         "status": "added",
-        "value": "blah blah",
-        "children": ""
+        "value": "blah blah"
       },
       {
         "name": "setting5",
         "status": "added",
         "value": {
           "key5": "value5"
-        },
-        "children": ""
+        }
       }
     ]
   },
   {
     "name": "group1",
     "status": "nested",
-    "value": "",
     "children": [
       {
         "name": "baz",
@@ -79,14 +68,12 @@
         "value": {
           "before": "bas",
           "after": "bars"
-        },
-        "children": ""
+        }
       },
       {
         "name": "foo",
         "status": "unchanged",
-        "value": "bar",
-        "children": ""
+        "value": "bar"
       },
       {
         "name": "nest",
@@ -96,8 +83,7 @@
             "key": "value"
           },
           "after": "str"
-        },
-        "children": ""
+        }
       }
     ]
   },
@@ -106,15 +92,13 @@
     "status": "deleted",
     "value": {
       "abc": 12345
-    },
-    "children": ""
+    }
   },
   {
     "name": "group3",
     "status": "added",
     "value": {
       "fee": 100500
-    },
-    "children": ""
+    }
   }
 ]

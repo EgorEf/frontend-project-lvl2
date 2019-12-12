@@ -13,27 +13,27 @@ const getСorrectViev = (element) => {
 const renders = [
   {
     render: (arrNames, v) => `Property '${arrNames.join('.')}' was added with value: ${getСorrectViev(v)}`,
-    check: status => (status === 'added'),
+    check: (status) => (status === 'added'),
   },
   {
     render: (arrNames, v) => `Property '${arrNames.join('.')}' was updated. From ${getСorrectViev(v.before)} to ${getСorrectViev(v.after)}`,
-    check: status => (status === 'edited'),
+    check: (status) => (status === 'edited'),
   },
   {
-    render: arrNames => `Property '${arrNames.join('.')}' was removed`,
-    check: status => (status === 'deleted'),
+    render: (arrNames) => `Property '${arrNames.join('.')}' was removed`,
+    check: (status) => (status === 'deleted'),
   },
   {
     render: (arrNames, v, child, func) => func(child, arrNames),
-    check: status => (status === 'nested'),
+    check: (status) => (status === 'nested'),
   },
 ];
 
-const getRender = v => (
+const getRender = (v) => (
   renders.find(({ check }) => check(v))
 );
 
-const filtrator = v => (v.status !== 'unchanged' || v.status === 'nested');
+const filtrator = (v) => (v.status !== 'unchanged' || v.status === 'nested');
 
 const getResultArr = (arr, fullName = []) => {
   const filteredArr = arr.filter(filtrator);
@@ -46,4 +46,4 @@ const getResultArr = (arr, fullName = []) => {
   return _.flattenDeep(resultArr);
 };
 
-export default ast => getResultArr(ast).join('\n');
+export default (ast) => getResultArr(ast).join('\n');

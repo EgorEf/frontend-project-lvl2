@@ -4,9 +4,9 @@ import parsing from './parsers';
 import getAst from './ast';
 import getRender from './formatters';
 
-const getType = config => path.extname(config).slice(1);
+const getType = (config) => path.extname(config).slice(1);
 
-export default(path1, path2, format) => {
+export default (path1, path2, format) => {
   const type1 = getType(path1);
   const type2 = getType(path2);
   const data1 = fs.readFileSync(path1, 'utf8');

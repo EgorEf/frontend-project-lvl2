@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import gendiff from '../src';
 
-const getResult = absolutionPath => fs.readFileSync(absolutionPath, 'utf8');
+const getResult = (absolutionPath) => fs.readFileSync(absolutionPath, 'utf8');
 
 const pathToResultPretty = path.resolve(__dirname, '__fixtures__/result.txt');
 const pathToResultPlain = path.resolve(__dirname, '__fixtures__/resultPlain.txt');
