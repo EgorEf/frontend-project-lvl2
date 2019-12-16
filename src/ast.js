@@ -1,62 +1,53 @@
 import _ from 'lodash';
 
-const nodes = [
+const typesNode = [
   {
     status: 'added',
-    proces: (obj1, obj2) => _.identity(obj2),
+    getResult: (obj1, obj2) => _.identity(obj2),
+    getNode: (name, status, result) => ({ name, status, value: result }),
     check: (obj1, obj2, key) => (!_.has(obj1, key) && _.has(obj2, key)),
   },
   {
     status: 'edited',
-    proces: (obj1, obj2) => ({ before: obj1, after: obj2 }),
+    getResult: (obj1, obj2) => ({ before: obj1, after: obj2 }),
+    getNode: (name, status, result) => ({ name, status, value: result }),
     check: (obj1, obj2, key) => (_.has(obj2, key) && _.has(obj1, key) && (obj2[key] !== obj1[key]))
     && !(obj1[key] instanceof Object && obj2[key] instanceof Object),
   },
   {
     status: 'deleted',
-    proces: (obj1) => _.identity(obj1),
+    getResult: (obj1) => _.identity(obj1),
+    getNode: (name, status, result) => ({ name, status, value: result }),
     check: (obj1, obj2, key) => (!_.has(obj2, key)),
   },
   {
     status: 'unchanged',
-    proces: (obj1) => _.identity(obj1),
+    getResult: (obj1) => _.identity(obj1),
+    getNode: (name, status, result) => ({ name, status, value: result }),
     check: (obj1, obj2, key) => (obj2[key] === obj1[key]) && (_.has(obj1, key) && _.has(obj2, key)),
   },
   {
     status: 'nested',
-    proces: (obj1, obj2, func) => func(obj1, obj2),
+    getResult: (obj1, obj2, func) => func(obj1, obj2),
+    getNode: (name, status, result) => ({ name, status, children: result }),
     check: (obj1, obj2, key) => (obj1[key] instanceof Object && obj2[key] instanceof Object),
   },
 ];
 
-const getNode = (firstObj, secondObj, key) => (
-  nodes.find(({ check }) => check(firstObj, secondObj, key))
+const identification = (firstObj, secondObj, key) => (
+  typesNode.find(({ check }) => check(firstObj, secondObj, key))
 );
 
-const getResultArr = (obj1, obj2) => {
-  const arr1 = Object.keys(obj1);
-  const arr2 = Object.keys(obj2);
-  const filtered = arr2.filter((key) => !_.has(obj1, key));
-  return arr1.concat(filtered);
-};
-
-const constructorNodes = {
-  nested: (name, status, result) => ({ name, status, children: result }),
-  unchanged: (name, status, result) => ({ name, status, value: result }),
-  deleted: (name, status, result) => ({ name, status, value: result }),
-  edited: (name, status, result) => ({ name, status, value: result }),
-  added: (name, status, result) => ({ name, status, value: result }),
-};
+const getUniqKeys = (obj1, obj2) => _.union(_.keys(obj1), _.keys(obj2));
 
 const getAst = (obj1, obj2) => {
-  const resultArr = getResultArr(obj1, obj2);
-  const reduced = resultArr.reduce((acc, key) => {
-    const { status, proces } = getNode(obj1, obj2, key);
-    const name = key;
-    const resultForNode = proces(obj1[key], obj2[key], getAst);
-    const node = constructorNodes[status](name, status, resultForNode);
-    return [...acc, node];
-  }, []);
-  return reduced;
+  const uniqKeys = getUniqKeys(obj1, obj2);
+  const result = uniqKeys.map((key) => {
+    const { status, getResult, getNode } = identification(obj1, obj2, key);
+    const resultForNode = getResult(obj1[key], obj2[key], getAst);
+    const node = getNode(key, status, resultForNode);
+    return node;
+  });
+  return result;
 };
 export default getAst;
