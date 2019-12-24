@@ -4,7 +4,7 @@ const typesNode = [
   {
     status: 'added',
     getNode: (name, status, firstValue, secondValue) => (
-      { name, status, value: _.identity(secondValue) }
+      { name, status, value: secondValue }
     ),
     check: (obj1, obj2, key) => (!_.has(obj1, key) && _.has(obj2, key)),
   },
@@ -18,12 +18,12 @@ const typesNode = [
   },
   {
     status: 'deleted',
-    getNode: (name, status, firstValue) => ({ name, status, value: _.identity(firstValue) }),
+    getNode: (name, status, firstValue) => ({ name, status, value: firstValue }),
     check: (obj1, obj2, key) => (!_.has(obj2, key)),
   },
   {
     status: 'unchanged',
-    getNode: (name, status, firstValue) => ({ name, status, value: _.identity(firstValue) }),
+    getNode: (name, status, firstValue) => ({ name, status, value: firstValue }),
     check: (obj1, obj2, key) => (obj2[key] === obj1[key]) && (_.has(obj1, key) && _.has(obj2, key)),
   },
   {
