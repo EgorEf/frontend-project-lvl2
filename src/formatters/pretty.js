@@ -1,36 +1,34 @@
-const standartSpace = ' '.repeat(4);
+const getSpace = (counter, symb = '  ') => {
+  const space = ' '.repeat(counter * 4);
+  const correctSpace = space.slice(1, space.length - 1);
+  return (counter !== 0) ? `${correctSpace}${symb}` : '';
+};
 
-const getStringFromObj = (element, space) => {
+const renderSingleObj = (element, count) => {
   if (!(element instanceof Object)) {
     return element;
   }
   const key = Object.keys(element).join();
-  return `{\n${space}${standartSpace}${key}: ${element[key]}\n${space}}`;
-};
-
-const getSpace = (space, symbol) => {
-  const correctSpace = space.slice(1, space.length - 1);
-  return `${correctSpace}${symbol} `;
+  return `{\n${getSpace(count + 1)}${key}: ${element[key]}\n${getSpace(count)}}`;
 };
 
 const renders = {
-  added: (name, space, value) => `${getSpace(space, '+')}${name}: ${getStringFromObj(value, space)}`,
-  edited: (name, space, value) => (
-    `${getSpace(space, '-')}${name}: ${getStringFromObj(value.before, space)}\n${getSpace(space, '+')}${name}: ${getStringFromObj(value.after, space)}`
+  added: (name, count, value) => `${getSpace(count, '+ ')}${name}: ${renderSingleObj(value, count)}`,
+  edited: (name, count, value) => (
+    `${getSpace(count, '- ')}${name}: ${renderSingleObj(value.before, count)}\n${getSpace(count, '+ ')}${name}: ${renderSingleObj(value.after, count)}`
   ),
-  deleted: (name, space, value) => `${getSpace(space, '-')}${name}: ${getStringFromObj(value, space)}`,
-  unchanged: (name, space, value) => `${space}${name}: ${value}`,
-  nested: (name, space, value, children, func) => `${space}${name}: ${func(children, space)}`,
+  deleted: (name, count, value) => `${getSpace(count, '- ')}${name}: ${renderSingleObj(value, count)}`,
+  unchanged: (name, count, value) => `${getSpace(count)}${name}: ${value}`,
+  nested: (name, count, value, children, getChildren) => `${getSpace(count)}${name}: ${getChildren(children, count + 1)}`,
 };
 
-const getRender = (ast, currentSpace = '') => {
-  const space = `${currentSpace}${standartSpace}`;
+const getRender = (ast, counter = 1) => {
   const result = ast.map((node) => {
     const render = renders[node.status];
-    const element = render(node.name, space, node.value, node.children, getRender);
+    const element = render(node.name, counter, node.value, node.children, getRender);
     return element;
   });
   const string = result.join('\n');
-  return `{\n${string}\n${currentSpace}}`;
+  return `{\n${string}\n${getSpace(counter - 1)}}`;
 };
 export default getRender;

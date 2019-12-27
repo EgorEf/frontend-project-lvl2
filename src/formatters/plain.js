@@ -11,13 +11,13 @@ const getСorrectViev = (element) => {
 };
 
 const renders = {
-  added: (arrNames, v) => `Property '${arrNames.join('.')}' was added with value: ${getСorrectViev(v)}`,
-  edited: (arrNames, v) => `Property '${arrNames.join('.')}' was updated. From ${getСorrectViev(v.before)} to ${getСorrectViev(v.after)}`,
-  deleted: (arrNames) => `Property '${arrNames.join('.')}' was removed`,
-  nested: (arrNames, v, child, func) => func(child, arrNames),
+  added: (names, v) => `Property '${names.join('.')}' was added with value: ${getСorrectViev(v)}`,
+  edited: (names, v) => `Property '${names.join('.')}' was updated. From ${getСorrectViev(v.before)} to ${getСorrectViev(v.after)}`,
+  deleted: (names) => `Property '${names.join('.')}' was removed`,
+  nested: (names, v, children, getChildren) => getChildren(children, names),
 };
 
-const filtrator = (v) => (v.status !== 'unchanged' || v.status === 'nested');
+const filtrator = (v) => (v.status !== 'unchanged');
 
 const getResultArr = (arr, fullName = []) => {
   const filteredArr = arr.filter(filtrator);
