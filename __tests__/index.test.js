@@ -26,18 +26,19 @@ const casesPlain = [[pathToJson1, pathToJson2, pathToResultPlain],
 const casesJson = [[pathToJson1, pathToJson2, pathToResultJson],
   [pathToIni1, pathToIni2, pathToResultJson], [pathToYml1, pathToYml2, pathToResultJson]];
 
+const format1 = 'pretty';
+const format2 = 'plain';
+const format3 = 'json';
+
 test.each(casesPretty)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
-    const format = 'pretty';
-    expect(genDiff(firstArg, secondArg, format)).toEqual(getExpectedResult(pathToResult));
+    expect(genDiff(firstArg, secondArg, format1)).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesPlain)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
-    const format = 'plain';
-    expect(genDiff(firstArg, secondArg, format)).toEqual(getExpectedResult(pathToResult));
+    expect(genDiff(firstArg, secondArg, format2)).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesJson)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
-    const format = 'json';
-    expect(genDiff(firstArg, secondArg, format)).toEqual(getExpectedResult(pathToResult));
+    expect(genDiff(firstArg, secondArg, format3)).toEqual(getExpectedResult(pathToResult));
   });
