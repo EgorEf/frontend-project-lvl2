@@ -17,7 +17,7 @@ const renders = [
   },
 ];
 
-export default (ast, v) => {
-  const result = renders.find(({ check }) => check(v)).render(ast);
+export default (ast, f) => {
+  const result = renders.find(({ check }) => check(f)).render(ast);
   return result;
 };

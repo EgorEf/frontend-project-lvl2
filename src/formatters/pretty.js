@@ -31,4 +31,4 @@ const getRender = (ast, counter = 1) => {
   const string = result.join('\n');
   return `{\n${string}\n${getSpace(counter - 1)}}`;
 };
-export default getRender;
+export default (ast) => getRender(ast);

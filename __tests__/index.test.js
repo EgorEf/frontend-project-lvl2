@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import gendiff from '../src';
+import genDiff from '../src';
 
-const getResult = (absolutionPath) => fs.readFileSync(absolutionPath, 'utf8');
+const getExpectedResult = (absolutionPath) => fs.readFileSync(absolutionPath, 'utf8');
 
 const pathToResultPretty = path.resolve(__dirname, '__fixtures__/result.txt');
 const pathToResultPlain = path.resolve(__dirname, '__fixtures__/resultPlain.txt');
@@ -29,21 +29,18 @@ const casesJson = [[pathToJson1, pathToJson2, pathToResultJson],
 test.each(casesPretty)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'pretty';
-    const result = gendiff(firstArg, secondArg, format);
-    const expectedResult = getResult(pathToResult);
-    expect(result).toEqual(expectedResult);
+    const result = genDiff(firstArg, secondArg, format);
+    expect(result).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesPlain)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'plain';
-    const result = gendiff(firstArg, secondArg, format);
-    const expectedResult = getResult(pathToResult);
-    expect(result).toEqual(expectedResult);
+    const result = genDiff(firstArg, secondArg, format);
+    expect(result).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesJson)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'json';
-    const result = gendiff(firstArg, secondArg, format);
-    const expectedResult = getResult(pathToResult);
-    expect(result).toEqual(expectedResult);
+    const result = genDiff(firstArg, secondArg, format);
+    expect(result).toEqual(getExpectedResult(pathToResult));
   });
