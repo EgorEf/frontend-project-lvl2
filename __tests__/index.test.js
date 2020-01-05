@@ -29,18 +29,18 @@ const casesJson = [[pathToJson1, pathToJson2, pathToResultJson],
 test.each(casesPretty)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'pretty';
-    const result = genDiff(firstArg, secondArg, format);
-    expect(result).toEqual(getExpectedResult(pathToResult));
+    const result1 = genDiff(firstArg, secondArg, format);
+    expect(result1).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesPlain)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'plain';
-    const result = genDiff(firstArg, secondArg, format);
-    expect(result).toEqual(getExpectedResult(pathToResult));
+    const result2 = genDiff(firstArg, secondArg, format);
+    expect(result2).toEqual(getExpectedResult(pathToResult));
   });
 test.each(casesJson)('genDiff(%p,\n %p)',
   (firstArg, secondArg, pathToResult) => {
     const format = 'json';
-    const result = genDiff(firstArg, secondArg, format);
-    expect(result).toEqual(getExpectedResult(pathToResult));
+    const result3 = genDiff(firstArg, secondArg, format);
+    expect(result3).toEqual(getExpectedResult(pathToResult));
   });
